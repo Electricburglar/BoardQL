@@ -1,0 +1,48 @@
+type Post {
+  _id: String!
+  title: String!
+  content: String!
+  author: String!
+  date: String!
+  password: Password!
+  count: Int!
+  countComment: Int!
+  comments: [Comment]!
+}
+
+type Comment {
+  _id: String!
+  PostID: String!
+  text: String!
+  date: String!
+  password: Password!
+}
+
+type Password {
+  hash: String!
+  salt: String!
+  iter: Int!
+}
+
+input PasswordInput {
+  hash: String!
+  salt: String!
+  iter: Int!
+}
+
+type Query {
+  post(_id: String!): Post
+  posts: [Post]
+  comments(PostID: String!): [Comment]
+  search(type: String!, value: String!): [Post]
+}
+
+type Mutation {
+  createPost(title: String!, author: String!, content: String!, password: PasswordInput!, date: String!): Boolean
+  deletePost(_id: String!, password: String!): Boolean
+  updatePost(_id: String!, title: String!, content: String!): Boolean
+  countPost(_id: String!): Boolean
+  createComment(text: String!, PostID: String!, date: String!, password: PasswordInput!): Boolean
+  deleteComment(_id: String!, password: String!, PostID: String!): Boolean
+  checkPassword(_id: String!, password: String!): Boolean
+}
